@@ -2,6 +2,9 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import BigCalendar from 'react-big-calendar'
+import from 'globalize'
+
 function App() {
   return (
     <div className="App">
