@@ -1,7 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import {Calendar, dateFnsLocalizer} from 'react-big-calendar'
+import {Calendar, dateFnsLocalizer, Views} from 'react-big-calendar'
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
 import startOfWeek from 'date-fns/startOfWeek'
@@ -20,33 +19,90 @@ const localizer = dateFnsLocalizer({
     locales,
 })
 
-class CalendarEvent {
+interface CalendarEvent {
+    id: number,
     title: string;
-    allDay: boolean;
     start: Date;
-    endDate: Date;
-    desc: string;
-    resourceId?: string | undefined;
-    tooltip?: string | undefined;
-
-    constructor(_title: string, _start: Date, _endDate: Date, _allDay?: boolean, _desc?: string, _resourceId?: string) {
-        this.title = _title;
-        this.allDay = _allDay || false;
-        this.start = _start;
-        this.endDate = _endDate;
-        this.desc = _desc || '';
-        this.resourceId = _resourceId;
-    }
+    end: Date;
+    allDay?: boolean;
+    desc?: string;
+    eventType: EventType;
 }
 
-const myEventsList: CalendarEvent[] = [];
+const getEventBackgroundColor = (eventType: EventType): string => {
+    if (eventType === EventType.RangeMaintenance) return '#A9AEB1';
+    if (eventType === EventType.BackupBid) return '#73B3E7';
+    return "#005EA2";
+}
 
-const MyCalendar:React.FC = ( ) => (
+enum EventType {
+    PrimaryBid = 'PRIMARY_BID',
+    BackupBid = 'BACKUP_BID',
+    RangeMaintenance = "RANGE_MAINTENANCE",
+}
+
+
+const myEventsList: CalendarEvent[] = [
+    {
+        id: 1,
+        eventType: EventType.PrimaryBid,
+        title: "Primary: IWTS Qual_ EST 1",
+        start: new Date(2022, 0, 11),
+        end: new Date(2022, 0, 18),
+        allDay: true
+    },
+    {
+        id: 2,
+        eventType: EventType.BackupBid,
+        title: "Backup 1: IWTS Qual_ EST 1",
+        start: new Date(2022, 0, 14),
+        end: new Date(2022, 0, 21),
+        allDay: true
+    },
+    {
+        id: 3,
+        eventType: EventType.BackupBid,
+        title: "Backup 2: IWTS Qual_ EST 2",
+        start: new Date(2022, 0, 11),
+        end: new Date(2022, 0, 18),
+        allDay: true
+    },
+    {
+        id: 4,
+        eventType: EventType.RangeMaintenance,
+        title: 'Range Maintenance',
+        start: new Date(2022, 0, 10),
+        end: new Date(2022, 0, 18),
+        allDay: true
+    }
+];
+//
+// let allViews = Object.keys(Views).map(k => Views[k])
+//
+// const ColoredDateCellWrapper = ({ children }) =>
+//     React.cloneElement(React.Children.only(children), {
+//         style: {
+//             backgroundColor: 'lightblue',
+//         },
+//     })
+
+
+const eventStyleGetter = (event: CalendarEvent) => ({
+    style: {
+        backgroundColor: getEventBackgroundColor(event.eventType),
+    }
+})
+
+
+const MyCalendar: React.FC = () => (
     <div>
         <Calendar
             localizer={localizer}
             events={myEventsList}
-            style={{height: 500}}
+            style={{height: 800}}
+            defaultDate={new Date(2022, 0, 1)}
+            eventPropGetter={eventStyleGetter}
+            views={[Views.MONTH, Views.WEEK]}
         />
     </div>
 )
