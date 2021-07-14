@@ -30,13 +30,18 @@ const eventStyleGetter = (event: CalendarEvent) => ({
     }
 })
 
-export const BigCalendar: React.FC = () => (
+interface BigCalendarProps {
+    calendarEvents: CalendarEvent[],
+    defaultDate: Date
+}
+
+export const BigCalendar: React.FC<BigCalendarProps> = (props) => (
     <div>
         <Calendar
             localizer={localizer}
-            events={fakeEvents}
+            events={props.calendarEvents}
             style={{height: 900}}
-            defaultDate={new Date(2022, 0, 1)}
+            defaultDate={props.defaultDate}
             eventPropGetter={eventStyleGetter}
             views={[Views.MONTH, Views.WEEK]}
         />
