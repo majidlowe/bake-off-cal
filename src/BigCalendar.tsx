@@ -5,7 +5,6 @@ import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import {CalendarEvent, EventType} from "./types";
-import {fakeEvents} from "./fakeEvents";
 
 const locales = {
     'en-US': require('date-fns/locale/en-US'),
@@ -32,18 +31,32 @@ const eventStyleGetter = (event: CalendarEvent) => ({
 
 interface BigCalendarProps {
     calendarEvents: CalendarEvent[],
-    defaultDate: Date
+    defaultDate: Date,
 }
+const MyToolBar: React.FC = () => <div>TRIC</div>
 
-export const BigCalendar: React.FC<BigCalendarProps> = (props) => (
-    <div>
-        <Calendar
-            localizer={localizer}
-            events={props.calendarEvents}
-            style={{height: 900}}
-            defaultDate={props.defaultDate}
-            eventPropGetter={eventStyleGetter}
-            views={[Views.MONTH, Views.WEEK]}
-        />
-    </div>
-)
+
+export const BigCalendar: React.FC<BigCalendarProps> = ({calendarEvents, defaultDate}) => {
+
+    const [selectedEventId, setSelectedEventId] = React.useState<number>(1337);
+    const [showDoubleClickMessage, setShowDoubleClickMessage] = React.useState(false);
+
+    return (
+        <div>
+            <Calendar
+                localizer={localizer}
+                events={calendarEvents}
+                style={{height: 900}}
+                defaultDate={defaultDate}
+                eventPropGetter={eventStyleGetter}
+                views={[Views.MONTH, Views.WEEK]}
+                onSelectEvent={event => setSelectedEventId(event.id)}
+                onDoubleClickEvent={() => setShowDoubleClickMessage(!showDoubleClickMessage)}
+                components={{toolbar: MyToolBar}}
+            />
+            <h1>{selectedEventId}</h1>
+            {(showDoubleClickMessage) &&
+            <h1>you double clicked an event</h1>}
+        </div>
+    );
+}

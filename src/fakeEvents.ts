@@ -6,7 +6,7 @@ export const fakeEvents: CalendarEvent[] = [
         eventType: EventType.PrimaryBid,
         title: "Primary: IWTS Qual_ EST 1",
         start: new Date(2022, 0, 11),
-        end: new Date(2022, 0, 18),
+        end: new Date(2022, 0, 11),
         allDay: true
     },
     {
@@ -14,7 +14,7 @@ export const fakeEvents: CalendarEvent[] = [
         eventType: EventType.BackupBid,
         title: "Backup 1: IWTS Qual_ EST 1",
         start: new Date(2022, 0, 14),
-        end: new Date(2022, 0, 21),
+        end: new Date(2022, 0, 15),
         allDay: true
     },
     {
