@@ -1,10 +1,13 @@
 import React from 'react';
 import {BigCalendar} from "./BigCalendar";
 import {CalendarEvent, EventType} from "./types";
-import {shallow} from "enzyme";
-import {Calendar} from "react-big-calendar";
 import {render, screen} from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
+import {Calendar} from "react-big-calendar";
+
+jest.mock('react-big-calendar', () => ({
+    Calendar: jest.fn(() => null),
+}))
 
 function makeCalendarEvent(partial: Partial<CalendarEvent> = {}): CalendarEvent {
     return {
@@ -20,22 +23,21 @@ function makeCalendarEvent(partial: Partial<CalendarEvent> = {}): CalendarEvent 
 
 describe('BigCalendar', () => {
     it('passes events to a calendar component to render', () => {
-        const events = [
-            {
-                id: 1,
-                eventType: EventType.PrimaryBid,
-                title: "Take me to your leader, or I'll atomize your face",
-                start: new Date(2012, 11, 12),
-                end: new Date(2012, 11, 13),
-                allDay: true
-            }
-        ];
-        const wrapper = shallow(<BigCalendar
-            calendarEvents={events}
-            defaultDate={new Date(2012, 11)}/>)
+        //arrange - come back and declare some stuff
+        const someCalendarEvents = [makeCalendarEvent(), makeCalendarEvent({id: 2})];
+        //act
 
-        const calendarComponent = wrapper.find(Calendar);
-        expect(calendarComponent.props().events).toEqual(events);
+        const someStartDate = makeCalendarEvent({title: "FiRST DaY bACK"}).start;
+        render(<BigCalendar calendarEvents={someCalendarEvents}
+                            defaultDate={someStartDate}/>)
+        //assert
+        expect(Calendar).toHaveBeenCalledWith(
+            expect.objectContaining({
+                calendarEvents: someCalendarEvents,
+                defaultDate: someStartDate,
+            })
+        )
+
     });
 
     it('shows the id of the event when the user clicks on it', () => {
@@ -52,6 +54,7 @@ describe('BigCalendar', () => {
         userEvent.click(calendarEventLabel)
         expect(screen.getByText("1234")).toBeInTheDocument();
     });
+
     it('shows a message when user double clicks the event', () => {
         const calendarEvent = makeCalendarEvent({
             id: 1234,
@@ -63,7 +66,6 @@ describe('BigCalendar', () => {
         expect(screen.queryByText("you double clicked an event")).not.toBeInTheDocument();
 
         const calendarEventLabel = screen.getByText("fuzzy wuzzy was a bear");
-
         userEvent.dblClick(calendarEventLabel)
         expect(screen.getByText("you double clicked an event")).toBeInTheDocument();
     });

@@ -44,7 +44,7 @@ export const BigCalendar: React.FC<BigCalendarProps> = ({calendarEvents, default
     return (
         <div>
             <Calendar
-                localizer={localizer}
+               localizer={localizer}
                 events={calendarEvents}
                 style={{height: 900}}
                 defaultDate={defaultDate}
