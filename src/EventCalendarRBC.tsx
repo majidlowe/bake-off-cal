@@ -28,15 +28,14 @@ const eventStyleGetter = (event: CalendarEvent) => ({
         backgroundColor: getEventBackgroundColor(event.eventType),
     }
 })
+const MyToolBar: React.FC = () => <div>TRIC</div>
 
-interface BigCalendarProps {
+interface EventCalendarRBCProps {
     calendarEvents: CalendarEvent[],
     defaultDate: Date,
 }
-const MyToolBar: React.FC = () => <div>TRIC</div>
 
-
-export const BigCalendar: React.FC<BigCalendarProps> = ({calendarEvents, defaultDate}) => {
+export const EventCalendarRBC: React.FC<EventCalendarRBCProps> = ({calendarEvents, defaultDate}) => {
 
     const [selectedEventId, setSelectedEventId] = React.useState<number>(1337);
     const [showDoubleClickMessage, setShowDoubleClickMessage] = React.useState(false);

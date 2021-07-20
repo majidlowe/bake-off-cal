@@ -1,25 +1,13 @@
 import React from 'react';
-import {BigCalendar} from "./BigCalendar";
-import {CalendarEvent, EventType} from "./types";
+import {EventCalendarRBC} from "./EventCalendarRBC";
 import {render, screen} from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
 import {Calendar} from "react-big-calendar";
+import {makeCalendarEvent} from "./dataMakers";
 
-jest.mock('react-big-calendar', () => ({
-    Calendar: jest.fn(() => null),
-}))
-
-function makeCalendarEvent(partial: Partial<CalendarEvent> = {}): CalendarEvent {
-    return {
-        id: partial.id ?? 1,
-        eventType: partial.eventType ?? EventType.PrimaryBid,
-        start: partial.start ?? new Date(2012, 11, 12),
-        end: partial.end ?? new Date(2013, 11, 13),
-        title: partial.title ?? "some-calendar-event",
-        allDay: partial.allDay ?? false,
-        desc: partial.desc ?? "Hullabaloo",
-    };
-}
+// jest.mock('react-big-calendar', () => ({
+//     Calendar: jest.fn(() => null),
+// }))
 
 describe('BigCalendar', () => {
     it('passes events to a calendar component to render', () => {
@@ -28,8 +16,8 @@ describe('BigCalendar', () => {
         //act
 
         const someStartDate = makeCalendarEvent({title: "FiRST DaY bACK"}).start;
-        render(<BigCalendar calendarEvents={someCalendarEvents}
-                            defaultDate={someStartDate}/>)
+        render(<EventCalendarRBC calendarEvents={someCalendarEvents}
+                                 defaultDate={someStartDate}/>)
         //assert
         expect(Calendar).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -47,7 +35,7 @@ describe('BigCalendar', () => {
             start: new Date(2012, 11, 10),
             end: new Date(2012, 11, 10)
         });
-        render(<BigCalendar calendarEvents={[calendarEvent]} defaultDate={calendarEvent.start}/>);
+        render(<EventCalendarRBC calendarEvents={[calendarEvent]} defaultDate={calendarEvent.start}/>);
         expect(screen.queryByText("1234")).not.toBeInTheDocument();
         const calendarEventLabel = screen.getByText("fuzzy wuzzy was a bear");
 
@@ -62,7 +50,7 @@ describe('BigCalendar', () => {
             start: new Date(2012, 11, 10),
             end: new Date(2012, 11, 10)
         });
-        render(<BigCalendar calendarEvents={[calendarEvent]} defaultDate={calendarEvent.start}/>);
+        render(<EventCalendarRBC calendarEvents={[calendarEvent]} defaultDate={calendarEvent.start}/>);
         expect(screen.queryByText("you double clicked an event")).not.toBeInTheDocument();
 
         const calendarEventLabel = screen.getByText("fuzzy wuzzy was a bear");
@@ -78,8 +66,8 @@ describe('BigCalendar', () => {
             end: new Date(2012, 11, 10)
         });
 
-        render(<BigCalendar calendarEvents={[calendarEvent]}
-                            defaultDate={calendarEvent.start}
+        render(<EventCalendarRBC calendarEvents={[calendarEvent]}
+                                 defaultDate={calendarEvent.start}
 
         />);
         expect(screen.queryByText("you double clicked an event")).not.toBeInTheDocument();

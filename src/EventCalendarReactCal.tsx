@@ -6,7 +6,7 @@ import {EventType} from "./types";
 // import Calendar from 'react-calendar/dist/entry.nostyle'
 
 
-export const ReactCalendar = () => {
+export const EventCalendarReactCal = () => {
 
     const event ={
             id: 2,
