@@ -2,9 +2,6 @@ import React, {useState} from 'react';
 import Calendar, {CalendarTileProperties} from 'react-calendar';
 import {isAfter, isBefore, isSameDay} from "date-fns";
 import {EventType} from "./types";
-// @ts-ignore
-// import Calendar from 'react-calendar/dist/entry.nostyle'
-
 
 export const EventCalendarReactCal = () => {
 

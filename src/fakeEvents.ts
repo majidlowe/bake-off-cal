@@ -32,5 +32,19 @@ export const fakeEvents: CalendarEvent[] = [
         start: new Date(2022, 0, 10),
         end: new Date(2022, 0, 18),
         allDay: true
-    }
+    },    {
+        id: 5,
+        eventType: EventType.RangeMaintenance,
+        title: 'Range Maintenance 2',
+        start: new Date(2022, 0, 9),
+        end: new Date(2022, 0, 18),
+        allDay: true
+    },    {
+        id: 6,
+        eventType: EventType.RangeMaintenance,
+        title: 'Range Maintenance 3',
+        start: new Date(2022, 0, 11),
+        end: new Date(2022, 0, 16),
+        allDay: true
+    },
 ];
